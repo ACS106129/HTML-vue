@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ACS106129</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+    <link type="text/css" rel="stylesheet" href="index.css" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue@latest/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/vue-i18n/dist/vue-i18n.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+</head>
+
+<body>
+    <div id="loader" v-if="visible">
+        <transition name="progressbar-bounce">
+            <b-container v-if="show" fluid="sm">
+                <b-row align-v="center" align-h="center">
+                    <b-col>
+                        <b-progress :variant="style" :max="max" :value="value" height="5vh" animated></b-progress>
+                    </b-col>
+                    <b-col sm="1">{{ percent + '%' }}</b-col>
+                </b-row>
+                <b-row align-v="center" align-h="center">
+                    <b-col>{{ randomMessage }}</b-col>
+                </b-row>
+            </b-container>
+        </transition>
+    </div>
+    <div id="menubar">
+        <transition name="container-fade">
+            <b-navbar v-if="visible" toggleable="sm" type="dark" variant="dark">
+                <b-navbar-brand href="#">ACS106129</b-navbar-brand>
+                <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+                <b-collapse id="nav-collapse" is-nav>
+                    <b-navbar-nav class="mr-auto">
+                        <template v-for="menuitem in menuitems">
+                            <b-nav-item class="mx-2" :id="menuitem.id" :href="`#${menuitem.href}`">
+                                {{ $t(`menuitemDescription.${menuitem.id}.label`) }}</b-nav-item>
+                            <b-tooltip :target="menuitem.id" triggers="hover">
+                                {{ $t(`menuitemDescription.${menuitem.id}.tooltip`) }}</b-tooltip>
+                        </template>
+                    </b-navbar-nav>
+                    <b-navbar-nav class="ml-auto">
+                        <div class="d-flex align-items-center">
+                            <b-form-input v-model="input" v-on:keyup.enter="keywordSearch"
+                                class="mr-2 flex-grow-1 w-auto" :placeholder="$t('keyword')"></b-form-input>
+                            <b-button @click="keywordSearch" class="my-2 my-sm-0">{{ $t('search') }}</b-button>
+                        </div>
+                        <b-nav-item-dropdown :text="$t('lang')" right>
+                            <b-dropdown-item v-for="item in dropdown.items" :value="item.value"
+                                @click="dropdown.selectedItem = item.value" href="#">
+                                {{ $t(`dropdownitemDescription.${item.value}`) }}</b-dropdown-item>
+                        </b-nav-item-dropdown>
+                    </b-navbar-nav>
+                </b-collapse>
+            </b-navbar>
+        </transition>
+    </div>
+    <div id="home">
+        <transition name="container-fade">
+            <div v-if="visible" class="text-center">
+                <b-card overlay img-src="bg.jpg" img-alt="Card Image" :title="$t('title')" :sub-title="$t('subTitle')">
+                    <b-card-text>{{ randomText }}</b-card-text>
+                </b-card>
+            </div>
+        </transition>
+    </div>
+    <div id="footer">
+        <transition name="container-fade">
+            <b-container v-if="visible" fluid>
+                <b-row align-v="center" align-h="center" class="text-center">{{ localeTime }}</b-row>
+                <b-row align-v="center" align-h="center" class="text-center">
+                    <b-col>{{ `${$t('ip')} : ${userdata.ip}` }}</b-col>
+                    <b-col>{{ `${$t('views')} : ` }}
+                        <img src="https://www.cutercounter.com/hits.php?id=hrxxnpof&nd=6&style=22" border="0"
+                            alt="網頁計數器">
+                    </b-col>
+                </b-row>
+                <b-row align-v="center" align-h="center" class="text-center">{{ $t('copyright') }}</b-row>
+            </b-container>
+        </transition>
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>
